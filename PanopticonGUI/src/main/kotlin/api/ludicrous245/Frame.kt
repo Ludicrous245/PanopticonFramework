@@ -163,6 +163,7 @@ class Frame(val name: String, val size: Int, builder: Frame.() -> Unit): Listene
      * method of find by tag
      * returns MutableList of all same tag objects
      */
+    @JvmName("getComponentsByTag")
     fun getComponents(tag: String): List<Component>{
         val tempList:MutableList<Component> = mutableListOf()
         objects.values.forEach {
