@@ -1,30 +1,44 @@
 package com.ludicrous245
 
+import api.ludicrous245.EventListener
 import api.ludicrous245.Frame
-import api.ludicrous245.module.Event
 import api.ludicrous245.module.GUI
 import api.ludicrous245.components.Pane
+import api.ludicrous245.event.events.PlayerEvents
+import api.ludicrous245.module.Event
+import api.ludicrous245.module.Event.Companion.createListener
 import api.ludicrous245.project.PanopticonProject
 import api.ludicrous245.project.global.PublicCompanion.pluginManager
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.entity.EntityEvent
+import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.player.PlayerInteractEvent
 
-class PanopticonPlugin: PanopticonProject("TesPlugin"), Listener{
+class PanopticonPlugin: PanopticonProject("TesPlugin"){
     lateinit var frame: Frame
 
-    override fun init() {
-        pluginManager.registerEvents(this, this)
+    companion object{
+        lateinit var event: EventListener
+    }
 
+    override fun init() {
         module.use(GUI())
         module.use(Event())
+        event = createListener()
 
         projectManager.add("SubPlugin", PanopticonSubPlugin())
-
         projectManager.load()
-        log("앗살람알라이쿰")
+
+        event.on<PlayerEvents> {
+            listen<PlayerInteractEvent> {
+                log("인터렉션")
+            }
+        }
     }
 
     override fun close() {
