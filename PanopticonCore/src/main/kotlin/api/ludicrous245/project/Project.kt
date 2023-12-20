@@ -18,7 +18,7 @@ abstract class Project(private val projectName: String): JavaPlugin() {
 
     }
 
-    open fun close(){
+    open fun terminate(){
 
     }
 
@@ -39,7 +39,7 @@ abstract class Project(private val projectName: String): JavaPlugin() {
 
     override fun onDisable() {
         module.close()
-        close()
+        terminate()
     }
 
     /**

@@ -7,6 +7,4 @@ class PanopticonSubPlugin: SubProject("Sub") {
     override fun onLoad() {
         log("서브")
     }
-
-
 }
