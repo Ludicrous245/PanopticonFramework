@@ -11,7 +11,6 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.player.PlayerToggleSneakEvent
-import kotlin.reflect.typeOf
 
 @Suppress("UNCHECKED_CAST")
 class PlayerEvents: CompressedEvent() {

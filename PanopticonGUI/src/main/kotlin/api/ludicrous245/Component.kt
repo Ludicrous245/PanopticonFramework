@@ -17,3 +17,12 @@ abstract class Component {
         icon = createIcon(material, consumer)
     }
 }
+
+/*
+.let
+.apply
+.run
+.with
+.lalso
+
+ */

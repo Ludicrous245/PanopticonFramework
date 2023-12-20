@@ -135,10 +135,10 @@ class Frame(val name: String, val size: Int, builder: Frame.() -> Unit): Listene
             objects.keys.forEach {
                 val obj = objects[it]!!
 
-                if(obj is Slot){
-                    if(obj.holder != null) setItem(it, obj.holder)
+                if (obj is Slot) {
+                    if (obj.holder != null) setItem(it, obj.holder)
                     else setItem(it, obj.icon)
-                }else setItem(it, obj.icon)
+                } else setItem(it, obj.icon)
             }
         }
     }

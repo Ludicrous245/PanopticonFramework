@@ -4,22 +4,18 @@ import api.ludicrous245.EventListener
 import api.ludicrous245.Frame
 import api.ludicrous245.module.GUI
 import api.ludicrous245.components.Pane
+import api.ludicrous245.event.events.InventoryEvents
 import api.ludicrous245.event.events.PlayerEvents
 import api.ludicrous245.module.Event
 import api.ludicrous245.module.Event.Companion.createListener
-import api.ludicrous245.project.PanopticonProject
-import api.ludicrous245.project.global.PublicCompanion.pluginManager
+import api.ludicrous245.project.Project
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.entity.EntityEvent
-import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerInteractEvent
 
-class PanopticonPlugin: PanopticonProject("TesPlugin"){
+class Plugin: Project("TesPlugin"){
     lateinit var frame: Frame
 
     companion object{
@@ -38,6 +34,10 @@ class PanopticonPlugin: PanopticonProject("TesPlugin"){
             listen<PlayerInteractEvent> {
                 log("인터렉션")
             }
+        }
+
+        event.on<InventoryEvents>{
+
         }
     }
 

@@ -14,14 +14,15 @@ project.extra.set("pluginName", name.split('-').joinToString("") { it.capitalize
 
 dependencies{
     api(project(":PanopticonCore"))
-    api(project(":PanopticonGUI"))
-    api(project(":PanopticonCommand"))
-    api(project(":PanopticonEvent"))
 }
 
 tasks {
     named<ShadowJar>("shadowJar") {
-        archiveBaseName.set("PanopticonTestPlugin")
+        dependencies{
+            exclude("PanopticonCore")
+        }
+
+        archiveBaseName.set("PanopticonCommand")
 
         mergeServiceFiles()
     }

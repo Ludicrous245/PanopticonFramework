@@ -1,12 +1,11 @@
 package api.ludicrous245.project
 
-import api.ludicrous245.module.ModuleManager
 import api.ludicrous245.project.global.PublicCompanion
 import api.ludicrous245.project.global.PublicCompanion.plugin
 import api.ludicrous245.project.global.PublicCompanion.pluginName
 import org.bukkit.plugin.java.JavaPlugin
 
-open class PanopticonProject(private val projectName: String): JavaPlugin() {
+abstract class Project(private val projectName: String): JavaPlugin() {
     val projectManager = ProjectManager()
 
     val module = PublicCompanion.module
