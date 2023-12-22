@@ -28,7 +28,7 @@ class CommandSelection(val commandName: String, val location: Int) {
      *
      * action: lambda block of callback which call on execute
      */
-    fun run(action: () -> Unit){
+    fun executes(action: () -> Unit){
         this.actions.add(action)
     }
 

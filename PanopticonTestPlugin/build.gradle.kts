@@ -13,6 +13,10 @@ version = "1.0-SNAPSHOT"
 project.extra.set("pluginName", name.split('-').joinToString("") { it.capitalize() })
 
 dependencies{
+    api(project(":PanopticonCore"))
+    api(project(":PanopticonEvent"))
+    api(project(":PanopticonGUI"))
+    api(project(":PanopticonCommand"))
     api(fileTree("src/main/libs") { include("*.jar") })
 }
 
