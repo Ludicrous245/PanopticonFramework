@@ -84,7 +84,7 @@ class CommandSelection(val commandName: String, val location: Int) {
                 this.args = __args
             }
 
-            if(nextInt < argRaw.size) newSelection.emit(argRaw, i + 1)
+            if(nextInt < argRaw.size) newSelection.emit(argRaw, nextInt)
             else if(newSelection.actions.isNotEmpty()) newSelection.actions.onEach { it() }
         }
 
@@ -94,22 +94,22 @@ class CommandSelection(val commandName: String, val location: Int) {
     /**
      * register tabComplete
      */
-    private fun tab(args: List<String>, i: Int): MutableList<String>{
+    private fun tab(args: List<String>): MutableList<String>{
         val complete: MutableList<String> = mutableListOf()
 
-        if(i == 0) return complete.apply { addAll(selections.keys) }
-        else tab(selections[args[0]]!!.selection, args, i, 1, complete)
+        if((args.size-1) == 0) return complete.apply { addAll(selections.keys) }
+        else tab(selections[args[0]]!!.selection, args,1, complete)
 
         return complete
     }
 
-    private fun tab(selection: CommandSelection, args: List<String>, i: Int, j: Int, target: MutableList<String>){
-        if(i == j) target.addAll(selection.selections.keys)
+    private fun tab(selection: CommandSelection, args: List<String>, j: Int, target: MutableList<String>){
+        if((args.size-1) == j) target.addAll(selection.selections.keys)
         else{
             try {
                 val arg = args[j]
                 val nextSelection = selection.selections[arg]
-                nextSelection?.selection?.tab(nextSelection.selection, args, i, j+1, target)
+                nextSelection?.selection?.tab(nextSelection.selection, args, j+1, target)
             }catch (_: Exception){}
         }
     }
@@ -130,7 +130,7 @@ class CommandSelection(val commandName: String, val location: Int) {
             }
 
             override fun tabComplete(sender: CommandSender, alias: String, args: Array<out String>): MutableList<String> {
-                return tab(args.toList(), args.size-1)
+                return tab(args.toList())
             }
         }
 
