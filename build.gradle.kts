@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.9.21"
+    kotlin("jvm") version "2.0.0"
 }
 
 repositories {
@@ -23,7 +23,7 @@ allprojects{
         implementation(kotlin("stdlib"))
 
         implementation("com.google.code.gson:gson:2.9.0")
-        compileOnly("org.spigotmc:spigot:1.20.4-R0.1-SNAPSHOT")
+        compileOnly("org.spigotmc:spigot:1.20.6-R0.1-SNAPSHOT")
 
         implementation("im.kimcore:Josa.kt:1.6")
 
@@ -32,6 +32,6 @@ allprojects{
     }
 
     java {
-        toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+        toolchain.languageVersion.set(JavaLanguageVersion.of(22))
     }
 }
