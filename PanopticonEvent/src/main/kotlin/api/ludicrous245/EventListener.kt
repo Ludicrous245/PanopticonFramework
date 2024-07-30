@@ -7,7 +7,7 @@ import api.ludicrous245.project.global.PublicCompanion.plugin
 import api.ludicrous245.project.global.PublicCompanion.pluginManager
 
 class EventListener {
-    val _events: MutableList<CompressedEvent> = mutableListOf()
+    internal val _events: MutableList<CompressedEvent> = mutableListOf()
     val events: List<CompressedEvent> = _events
 
     inline fun <reified T: CompressedEvent> on(consumer: T.() -> Unit){

@@ -65,7 +65,6 @@ class CommandSelection(val commandName: String, val location: Int) {
         }
     }
 
-
     /**
      * request Argument by force
      * basically, arguments are registered when call 'case' method
