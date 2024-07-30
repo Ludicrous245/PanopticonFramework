@@ -18,6 +18,7 @@ dependencies{
 
 tasks {
     named<ShadowJar>("shadowJar") {
+
         dependencies{
             exclude("PanopticonCore")
         }

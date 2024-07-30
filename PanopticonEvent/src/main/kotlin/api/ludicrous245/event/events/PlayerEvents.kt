@@ -4,6 +4,7 @@ import api.ludicrous245.event.CompressedEvent
 import api.ludicrous245.project.global.PublicCompanion.log
 import api.ludicrous245.util.UnhandledEventListenException
 import org.bukkit.event.EventHandler
+import org.bukkit.event.entity.ProjectileLaunchEvent
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerEvent
 import org.bukkit.event.player.PlayerInteractEvent
@@ -20,6 +21,7 @@ class PlayerEvents: CompressedEvent() {
     val moveEvents: MutableList<(event: PlayerMoveEvent) -> Unit> = mutableListOf()
     val sneakEvents: MutableList<(event: PlayerToggleSneakEvent) -> Unit> = mutableListOf()
     val chatEvents: MutableList<(event: AsyncPlayerChatEvent) -> Unit> = mutableListOf()
+    val projectileEvents: MutableList<(event: ProjectileLaunchEvent) -> Unit> = mutableListOf()
 
     inline fun <reified T: PlayerEvent> listen(noinline consumer: (event: T) -> Unit){
         val name = T::class.java.simpleName
@@ -49,6 +51,10 @@ class PlayerEvents: CompressedEvent() {
                     chatEvents.add(consumer as (event: AsyncPlayerChatEvent) -> Unit)
                 }
 
+                "ProjectileLaunchEvent"-> {
+                    projectileEvents.add(consumer as (event: ProjectileLaunchEvent) -> Unit)
+                }
+
                 else -> {
                     throw UnhandledEventListenException("Bukkit Event $name is un handled in this compress")
                 }
@@ -76,6 +82,13 @@ class PlayerEvents: CompressedEvent() {
     @EventHandler
     fun quit(event: PlayerQuitEvent){
         quitEvents.forEach{
+            it(event)
+        }
+    }
+
+    @EventHandler
+    fun projectile(event: ProjectileLaunchEvent){
+        projectileEvents.forEach{
             it(event)
         }
     }

@@ -1,5 +1,6 @@
 package api.ludicrous245.contents
 
+import api.ludicrous245.contents.data.Argset
 import api.ludicrous245.contents.data.SelectionInfo
 import api.ludicrous245.data.duplicate
 import api.ludicrous245.module.Command.Companion.register
@@ -17,11 +18,12 @@ class CommandSelection(val commandName: String, val location: Int) {
     /**
      * CommandSender variable
      */
-    private lateinit var _sender: CommandSender
-    val sender: CommandSender by lazy { _sender }
+    lateinit var sender: CommandSender
 
     private val actions: MutableList<() -> Unit> = mutableListOf()
     private val selections: MutableMap<String, SelectionInfo> = mutableMapOf()
+
+    var argset: Argset = Argset()
 
     /**
      * Add Action when command execute
@@ -63,12 +65,31 @@ class CommandSelection(val commandName: String, val location: Int) {
         }
     }
 
+
+    /**
+     * request Argument by force
+     * basically, arguments are registered when call 'case' method
+     * nevertheless, use it when argument requires without 'case'
+     * or need online player names (Argset.Players)
+     */
+    fun reqArg(set: Argset){
+        argset = set
+    }
+
+    fun reqArg(builder: Argset.() -> Unit){
+        argset = Argset(builder)
+    }
+
+    fun reqArg(arg: String){
+        argset.add(arg)
+    }
+
     /**
      * runs command
      */
     private fun emit(argRaw: List<String>, i: Int){
         val __args = args.duplicate
-        val __sender = _sender
+        val __sender = sender
 
         if(argRaw.isEmpty()){
             if(actions.isNotEmpty()) actions.onEach { it() }
@@ -80,7 +101,7 @@ class CommandSelection(val commandName: String, val location: Int) {
         if(selectionInfo != null){
             val nextInt = i + 1
             val newSelection = selectionInfo.selection.apply {
-                this._sender = __sender
+                this.sender = __sender
                 this.args = __args
             }
 
@@ -97,15 +118,22 @@ class CommandSelection(val commandName: String, val location: Int) {
     private fun tab(args: List<String>): MutableList<String>{
         val complete: MutableList<String> = mutableListOf()
 
-        if((args.size-1) == 0) return complete.apply { addAll(selections.keys) }
-        else tab(selections[args[0]]!!.selection, args,1, complete)
+        if((args.size-1) == 0) return complete.apply {
+            addAll(selections.keys)
+            if(argset.requires.isNotEmpty()) addAll(argset.requires)
+        } else {
+            val nextSel = selections[args[0]]
+            if(nextSel != null) tab(nextSel.selection, args,1, complete)
+        }
 
         return complete
     }
 
     private fun tab(selection: CommandSelection, args: List<String>, j: Int, target: MutableList<String>){
-        if((args.size-1) == j) target.addAll(selection.selections.keys)
-        else{
+        if((args.size-1) == j) {
+            target.addAll(selection.selections.keys)
+            if(selection.argset.requires.isNotEmpty()) target.addAll(selection.argset.requires)
+        } else {
             try {
                 val arg = args[j]
                 val nextSelection = selection.selections[arg]
@@ -121,8 +149,8 @@ class CommandSelection(val commandName: String, val location: Int) {
      */
     internal fun build(): ProxyCommand{
         val proxy = object: ProxyCommand(commandName) {
-            override fun execute(sender: CommandSender, label: String, rawArg: Array<out String>): Boolean {
-                _sender = sender
+            override fun execute(commandSender: CommandSender, label: String, rawArg: Array<out String>): Boolean {
+                sender = commandSender
                 args = rawArg.toMutableList()
 
                 emit(args, 0)
