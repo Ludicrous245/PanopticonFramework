@@ -1,5 +1,5 @@
-#Index
+# Index
 minecraft plugin library/framework
 
-#Usage
+# Usage
 shadow libraries in your plugin
