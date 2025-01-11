@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/PanopticonCommand" />
+            <option value="$PROJECT_DIR$/PanopticonCommand2" />
             <option value="$PROJECT_DIR$/PanopticonCore" />
             <option value="$PROJECT_DIR$/PanopticonEvent" />
             <option value="$PROJECT_DIR$/PanopticonGUI" />

@@ -16,10 +16,7 @@ class Argset {
     }
 
     companion object {
-        val Players: Argset
-            get() = fromPlayers()
-
-        private fun fromPlayers(): Argset{
+        fun fromPlayers(): Argset{
             val players = Bukkit.getOnlinePlayers().map { it.name }
             return Argset(players)
         }
